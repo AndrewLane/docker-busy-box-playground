@@ -1,0 +1,28 @@
+name: Build docker image
+
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: ghcr.io/AndrewLane/docker-busy-box-playground/docker-busy-box-playground-image
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: |
+          echo "Image name:tag will be $IMAGE_NAME:${{ env.GITHUB_RUN_NUMBER }}"
+          docker build . --tag $IMAGE_NAME:${{ env.GITHUB_RUN_NUMBER }} --tag $IMAGE_NAME:latest
+
+      - name: Push image
+        run: docker push $IMAGE_NAME --all-tags
