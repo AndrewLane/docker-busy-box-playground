@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: ghcr.io/AndrewLane/docker-busy-box-playground/docker-busy-box-playground-image
+  IMAGE_NAME: ghcr.io/andrewlane/docker-busy-box-playground/docker-busy-box-playground-image
 
 jobs:
   push:
